@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Станица Донская — База отдыха в Березовском</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#0a120a;
+--panel:rgba(16,26,16,0.72);
+--border:rgba(180,220,180,0.10);
+--text:#fff;
+--muted:#8a9a8a;
+--accent:#7cb87c;
+--accent-dark:#2d4a2d;
+--gold:#d4c5a9;
+--font:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+--r-lg:28px;
+--r-md:18px;
+--r-sm:14px;
+--ease:cubic-bezier(.16,1,.3,1);
+--ease-spring:cubic-bezier(.34,1.4,.5,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:var(--font);-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.5;min-height:100vh;position:relative}
+button,input,textarea,select{font-family:inherit}
+.hidden{display:none!important}
+
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(180,220,180,.12);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:rgba(180,220,180,.25)}
+
+/* ============ SCROLL PROGRESS ============ */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:1000;background:transparent;pointer-events:none}
+.scroll-progress-bar{height:100%;width:0;background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 14px rgba(124,184,124,.7),0 0 30px rgba(124,184,124,.4);transition:width .08s linear;border-radius:0 2px 2px 0}
+
+/* ============ CURSOR GLOW ============ */
+.cursor-glow{position:fixed;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(124,184,124,.07) 0%,rgba(124,184,124,.02) 35%,transparent 65%);pointer-events:none;z-index:1;transform:translate(-50%,-50%);left:-1000px;top:-1000px;mix-blend-mode:screen;will-change:transform;opacity:0;transition:opacity .5s}
+body:hover .cursor-glow{opacity:1}
+@media (max-width:900px){.cursor-glow{display:none}}
+
+/* ============ ФОН ============ */
+#bg-layer{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,#0d1a0d 0%,#081008 55%,#040804 100%);isolation:isolate}
+.bg-flow{position:absolute;inset:-30%;background:radial-gradient(circle at 22% 28%, rgba(50,120,50,.20) 0%, rgba(50,120,50,0) 45%),radial-gradient(circle at 78% 22%, rgba(80,140,80,.16) 0%, rgba(80,140,80,0) 45%),radial-gradient(circle at 68% 78%, rgba(40,100,40,.15) 0%, rgba(40,100,40,0) 45%),radial-gradient(circle at 28% 82%, rgba(60,120,60,.16) 0%, rgba(60,120,60,0) 45%);filter:blur(85px);animation:flowDrift 38s ease-in-out infinite alternate;will-change:transform}
+@keyframes flowDrift{0%{transform:translate(0,0) scale(1)}33%{transform:translate(2%,-1.5%) scale(1.05)}66%{transform:translate(-2%,2%) scale(1.02)}100%{transform:translate(-1%,1%) scale(1.06)}}
+.bg-conic{position:absolute;top:50%;left:50%;width:160vmax;height:160vmax;transform:translate(-50%,-50%);background:conic-gradient(from 0deg,rgba(50,120,50,.10),rgba(80,140,80,.08),rgba(40,100,40,.10),rgba(100,160,100,.08),rgba(50,120,50,.10));filter:blur(150px);animation:conicSpin 90s linear infinite;opacity:.85;mix-blend-mode:screen;will-change:transform}
+@keyframes conicSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.bg-topglow{position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:min(1200px,120vw);height:55vh;background:radial-gradient(ellipse at top,rgba(124,184,124,.05) 0%,transparent 65%);pointer-events:none;animation:glowBreathe 9s ease-in-out infinite}
+@keyframes glowBreathe{0%,100%{opacity:.7;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.05)}}
+.bg-orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;mix-blend-mode:screen;will-change:transform}
+.bg-orb.o1{width:520px;height:520px;top:8%;left:6%;background:radial-gradient(circle,rgba(60,140,60,.16),transparent 70%);animation:orbFloat1 26s ease-in-out infinite alternate}
+.bg-orb.o2{width:420px;height:420px;top:55%;right:8%;background:radial-gradient(circle,rgba(90,170,90,.12),transparent 70%);animation:orbFloat2 32s ease-in-out infinite alternate}
+.bg-orb.o3{width:380px;height:380px;bottom:-5%;left:38%;background:radial-gradient(circle,rgba(40,110,40,.11),transparent 70%);animation:orbFloat3 29s ease-in-out infinite alternate}
+@keyframes orbFloat1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(140px,80px) scale(1.15)}}
+@keyframes orbFloat2{0%{transform:translate(0,0) scale(1.05)}100%{transform:translate(-120px,-90px) scale(.95)}}
+@keyframes orbFloat3{0%{transform:translate(0,0) scale(.95)}100%{transform:translate(60px,-110px) scale(1.1)}}
+.bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(180,220,180,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(180,220,180,.015) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,#000 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 60% 50% at 50% 40%,#000 10%,transparent 70%);animation:gridShift 60s linear infinite}
+@keyframes gridShift{0%{background-position:0 0,0 0}100%{background-position:64px 64px,64px 64px}}
+.bg-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 85% 80% at 50% 45%,transparent 0%,rgba(0,0,0,.45) 65%,rgba(0,0,0,.85) 100%)}
+.bg-noise{position:absolute;inset:0;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.bg-stars{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.5), transparent),radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,.35), transparent),radial-gradient(1.5px 1.5px at 45% 65%, rgba(255,255,255,.4), transparent),radial-gradient(1px 1px at 85% 80%, rgba(255,255,255,.3), transparent),radial-gradient(1px 1px at 12% 78%, rgba(255,255,255,.45), transparent),radial-gradient(1.5px 1.5px at 60% 40%, rgba(255,255,255,.3), transparent);background-size:100% 100%;animation:twinkle 8s ease-in-out infinite alternate;opacity:.6}
+@keyframes twinkle{0%{opacity:.35}50%{opacity:.75}100%{opacity:.5}}
+@media (prefers-reduced-motion: reduce){.bg-flow,.bg-conic,.bg-topglow,.bg-orb,.bg-grid,.bg-stars{animation:none}}
+
+/* ============ FLOATING SIDE ICONS ============ */
+.float-icons{position:fixed;inset:0;z-index:1;pointer-events:none;display:none}
+@media (min-width:1024px){.float-icons{display:block}}
+.f-icon{position:absolute;top:var(--y,20%);z-index:var(--z,1);will-change:transform,opacity;transition:transform 1.05s cubic-bezier(.34,1.4,.5,1),opacity .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--exit-delay,0s);pointer-events:none}
+.f-icon[data-side="left"]{left:var(--x,-30px)}
+.f-icon[data-side="right"]{right:var(--x,-30px)}
+body:not(.home-page) .f-icon{opacity:0}
+body:not(.home-page) .f-icon[data-side="left"]{transform:translate(-220%,-40px) scale(.55)}
+body:not(.home-page) .f-icon[data-side="right"]{transform:translate(220%,40px) scale(.55)}
+.f-icon-parallax{will-change:transform}
+.f-icon-float{animation:var(--anim,iconFloatA) var(--dur,9s) ease-in-out infinite;animation-delay:var(--delay,0s);will-change:transform}
+@keyframes iconFloatA{0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0)}25%{transform:rotate(calc(var(--rot,0deg) + 2deg)) translate(6px,-12px)}50%{transform:rotate(var(--rot,0deg)) translate(-4px,-18px)}75%{transform:rotate(calc(var(--rot,0deg) - 2deg)) translate(8px,-8px)}}
+@keyframes iconFloatB{0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0) scale(1)}33%{transform:rotate(calc(var(--rot,0deg) + 3deg)) translate(-10px,-16px) scale(1.04)}66%{transform:rotate(calc(var(--rot,0deg) - 1.5deg)) translate(6px,-6px) scale(.98)}}
+@keyframes iconFloatC{0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0)}20%{transform:rotate(calc(var(--rot,0deg) - 3deg)) translate(4px,-6px)}50%{transform:rotate(calc(var(--rot,0deg) + 1.5deg)) translate(-8px,-16px)}80%{transform:rotate(calc(var(--rot,0deg) - 2deg)) translate(5px,-10px)}}
+@keyframes iconFloatD{0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0)}40%{transform:rotate(calc(var(--rot,0deg) + 4deg)) translate(12px,-10px)}75%{transform:rotate(calc(var(--rot,0deg) - 2deg)) translate(-6px,-20px)}}
+@keyframes iconFloatE{0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0) scale(1)}25%{transform:rotate(calc(var(--rot,0deg) - 2deg)) translate(-6px,-14px) scale(1.03)}60%{transform:rotate(calc(var(--rot,0deg) + 3deg)) translate(8px,-4px) scale(.97)}}
+@keyframes iconFloatF{0%,100%{transform:rotate(var(--rot,0deg)) translate(0,0)}30%{transform:rotate(calc(var(--rot,0deg) + 3deg)) translate(-8px,-18px)}65%{transform:rotate(calc(var(--rot,0deg) - 2deg)) translate(10px,-6px)}}
+.f-icon-card{position:relative;width:var(--size,160px);height:var(--size,160px);border-radius:calc(var(--size,160px) * 0.22);background:linear-gradient(145deg,rgba(180,220,180,.10),rgba(180,220,180,.015));border:1px solid rgba(180,220,180,.15);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);display:flex;align-items:center;justify-content:center;pointer-events:auto;cursor:pointer;transition:transform .7s cubic-bezier(.34,1.4,.5,1),border-color .5s,background .5s,filter .5s;filter:drop-shadow(0 24px 45px rgba(0,0,0,.60)) drop-shadow(0 0 30px rgba(124,184,124,.14));will-change:transform,filter}
+.f-icon[data-side="left"] .f-icon-card{-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.10) 10%,rgba(0,0,0,.45) 28%,#000 46%,#000 100%);mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.10) 10%,rgba(0,0,0,.45) 28%,#000 46%,#000 100%)}
+.f-icon[data-side="right"] .f-icon-card{-webkit-mask-image:linear-gradient(to left,transparent 0%,rgba(0,0,0,.10) 10%,rgba(0,0,0,.45) 28%,#000 46%,#000 100%);mask-image:linear-gradient(to left,transparent 0%,rgba(0,0,0,.10) 10%,rgba(0,0,0,.45) 28%,#000 46%,#000 100%)}
+.f-icon-card::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 30% 20%,rgba(180,220,180,.22),transparent 62%);opacity:.55;pointer-events:none;transition:opacity .5s}
+.f-icon-card::after{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(135deg,rgba(180,220,180,.38),transparent 40%,transparent 60%,rgba(124,184,124,.28));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:1px;pointer-events:none;opacity:.65;transition:opacity .5s}
+.f-icon-card svg{width:calc(var(--size,160px) * 0.38);height:calc(var(--size,160px) * 0.38);color:#fff;opacity:.85;position:relative;z-index:1;transition:opacity .5s,filter .5s,transform .6s cubic-bezier(.34,1.4,.5,1)}
+.f-icon-card:hover{transform:scale(1.10) rotate(-2deg);border-color:rgba(180,220,180,.55);background:linear-gradient(145deg,rgba(180,220,180,.18),rgba(180,220,180,.05));filter:drop-shadow(0 32px 60px rgba(0,0,0,.78)) drop-shadow(0 0 55px rgba(124,184,124,.55))}
+.f-icon-card:hover::before{opacity:1}
+.f-icon-card:hover::after{opacity:1}
+.f-icon-card:hover svg{opacity:1;filter:drop-shadow(0 0 16px rgba(180,220,180,.8));transform:scale(1.06)}
+@media (max-width:1279px){.f-icon-card{width:calc(var(--size,160px) * 0.55);height:calc(var(--size,160px) * 0.55);border-radius:calc(var(--size,160px) * 0.13)}.f-icon-card svg{width:calc(var(--size,160px) * 0.21);height:calc(var(--size,160px) * 0.21)}}
+@media (prefers-reduced-motion: reduce){.f-icon-float{animation:none}}
+
+/* ============ INTRO ============ */
+#intro{position:fixed;inset:0;z-index:9999;overflow:hidden;background:radial-gradient(ellipse at 50% 0%,#0d1a0d 0%,#081008 55%,#040804 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;transition:opacity .9s cubic-bezier(.16,1,.3,1),filter .9s cubic-bezier(.16,1,.3,1)}
+#intro.fade-out{opacity:0;filter:blur(20px) scale(1.08);pointer-events:none}
+.intro-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.intro-logo{width:120px;height:120px;border-radius:50%;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1a3a1a,#2d5a2d);color:#e8f0e8;font-weight:800;font-size:48px;letter-spacing:-4px;box-shadow:0 0 80px rgba(124,184,124,.4),0 0 160px rgba(124,184,124,.2);animation:logoPulse 2s infinite alternate cubic-bezier(.45,0,.55,1),logoIn .9s cubic-bezier(.16,1,.3,1) both;position:relative;overflow:hidden}
+.intro-logo svg{width:70%;height:70%}
+@keyframes logoIn{0%{opacity:0;transform:scale(.5) rotate(-12deg);filter:blur(20px)}100%{opacity:1;transform:none;filter:none}}
+.intro-title{margin-top:28px;font-size:20px;font-weight:800;letter-spacing:10px;color:#e8f0e8;text-transform:uppercase;animation:fadeInFlicker 1.8s ease forwards}
+.intro-sub{margin-top:10px;font-size:10px;letter-spacing:5px;color:#5a7a5a;text-transform:uppercase;opacity:0;animation:fadeIn 1s ease 1.4s forwards}
+#flash{position:fixed;inset:0;background:#fff;z-index:10000;opacity:0;pointer-events:none;transition:opacity .5s ease-out}
+
+/* ============ HEADER ============ */
+header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;transition:padding .4s var(--ease)}
+header::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,16,8,.92) 0,rgba(8,16,8,.5) 60%,transparent 100%);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);-webkit-mask-image:linear-gradient(180deg,#000 0,#000 60%,transparent 100%);z-index:-1;pointer-events:none}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:4px;font-size:14px;cursor:pointer;user-select:none;transition:letter-spacing .4s var(--ease)}
+.logo:hover{letter-spacing:5.5px}
+.logo-mark{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1a3a1a,#2d5a2d);color:#e8f0e8;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .5s var(--ease-spring),box-shadow .4s;box-shadow:0 0 0 rgba(124,184,124,0);overflow:hidden;border:2px solid rgba(124,184,124,.3)}
+.logo-mark svg{width:70%;height:70%}
+.logo:hover .logo-mark{transform:rotate(-8deg) scale(1.08);box-shadow:0 0 24px rgba(124,184,124,.5)}
+.header-actions{display:flex;gap:10px;align-items:center}
+
+/* ============ BUTTONS ============ */
+.btn{position:relative;padding:16px 26px;border-radius:var(--r-md);border:1px solid transparent;font-size:13px;font-weight:800;cursor:pointer;transition:transform .45s var(--ease),box-shadow .45s var(--ease),background .35s var(--ease),border-color .35s var(--ease),color .35s var(--ease),letter-spacing .4s var(--ease);text-transform:uppercase;letter-spacing:1.5px;display:inline-flex;align-items:center;justify-content:center;gap:10px;overflow:hidden;z-index:2;color:inherit;text-decoration:none;white-space:nowrap;will-change:transform}
+.btn:hover{letter-spacing:2px}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--accent);color:#0a120a;box-shadow:0 0 25px rgba(124,184,124,.22),0 8px 24px rgba(0,0,0,.4)}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 25%,rgba(255,255,255,.15) 50%,transparent 75%);transform:translateX(-120%);transition:transform .9s var(--ease);pointer-events:none}
+.btn-primary:hover::before{transform:translateX(120%)}
+.btn-primary::after{content:'';position:absolute;inset:-2px;border-radius:inherit;background:radial-gradient(circle at center,rgba(124,184,124,.5),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none;z-index:-1}
+.btn-primary:hover{box-shadow:0 0 40px rgba(124,184,124,.5),0 12px 32px rgba(0,0,0,.5)}
+.btn-primary:hover::after{opacity:.5}
+.btn-ghost{background:rgba(180,220,180,.04);color:#fff;border:1px solid rgba(180,220,180,.18);backdrop-filter:blur(10px)}
+.btn-ghost::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(180,220,180,.18),transparent 60%);opacity:0;transition:opacity .5s;pointer-events:none}
+.btn-ghost:hover{background:rgba(180,220,180,.1);border-color:rgba(180,220,180,.45);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.btn-ghost:hover::before{opacity:1}
+.btn svg{flex-shrink:0;transition:transform .4s var(--ease)}
+.btn:hover svg{transform:translateX(3px)}
+
+/* ============ PAGES ============ */
+main{position:relative;z-index:2}
+.page{display:none;padding:120px 24px 170px;max-width:1280px;margin:0 auto;min-height:100vh}
+.page.active{display:block;animation:pageIn .7s cubic-bezier(.16,1,.3,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(22px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+.reveal{opacity:0;transform:translateY(26px) perspective(1200px) rotateX(5deg);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease);will-change:opacity,transform}
+.reveal.in{opacity:1;transform:none;filter:none}
+.section-head{text-align:center;margin-bottom:56px}
+.section-label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);padding:6px 16px;border-radius:20px;background:rgba(180,220,180,.05);border:1px solid rgba(180,220,180,.1);margin-bottom:20px;backdrop-filter:blur(10px);transition:all .4s var(--ease)}
+.section-label:hover{color:#fff;border-color:rgba(180,220,180,.25);letter-spacing:4px}
+.section-title{display:block;font-size:clamp(28px,4.2vw,54px);font-weight:800;letter-spacing:-2px;line-height:1.08;background:linear-gradient(180deg,#e8f0e8 0,#8a9a8a 130%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;position:relative;padding-top:2px}
+.section-sub{font-size:15px;color:var(--muted);margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto}
+
+/* ============ HERO ============ */
+#page-home{padding-top:160px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:20px;background:rgba(180,220,180,.05);border:1px solid rgba(180,220,180,.14);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#b8c8b8;margin-bottom:28px;backdrop-filter:blur(10px);position:relative;animation:badgeFloat 5s ease-in-out infinite}
+@keyframes badgeFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.hero-badge::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg,transparent 30%,rgba(124,184,124,.35) 50%,transparent 70%);background-size:250% 100%;animation:badgeShine 4s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:1px;pointer-events:none}
+@keyframes badgeShine{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.dot-pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 1.6s infinite;flex-shrink:0}
+.hero-h1{font-size:clamp(38px,7.5vw,96px);font-weight:800;letter-spacing:-3.5px;line-height:1.02;color:#e8f0e8;position:relative;display:inline-block}
+.hero-h1 .accent{color:var(--accent);font-weight:800;font-style:normal;position:relative;display:inline-block}
+.hero-h1 .accent::after{content:'';position:absolute;inset:-10px -20px;background:radial-gradient(ellipse at center,rgba(124,184,124,.18) 0%,transparent 65%);filter:blur(18px);z-index:-1;animation:accentGlow 4s ease-in-out infinite}
+@keyframes accentGlow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.hero-lead{font-size:clamp(14px,1.5vw,17px);color:var(--muted);margin-top:24px;max-width:660px;margin-left:auto;margin-right:auto;font-weight:500}
+.hero-cta{display:flex;gap:14px;justify-content:center;margin-top:36px;flex-wrap:wrap;padding:0 10px}
+.hero-cta .btn{min-width:200px;flex:0 1 auto}
+.hero-stats{display:flex;justify-content:center;gap:56px;margin-top:72px;flex-wrap:wrap;padding:32px;border-radius:24px;background:rgba(180,220,180,.02);border:1px solid rgba(180,220,180,.06);backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.hero-stats::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(124,184,124,.4),transparent);animation:statLine 6s ease-in-out infinite}
+@keyframes statLine{0%,100%{left:30%;right:30%;opacity:.5}50%{left:5%;right:5%;opacity:1}}
+.stat{text-align:center;min-width:80px;transition:transform .4s var(--ease)}
+.stat:hover{transform:translateY(-3px)}
+.stat b{display:block;font-size:clamp(28px,3.2vw,44px);font-weight:800;letter-spacing:-1.5px;background:linear-gradient(180deg,#e8f0e8,#7a8a7a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums}
+.stat span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-top:6px}
+
+/* ============ GALLERY ============ */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.gallery-item{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;background:linear-gradient(160deg,rgba(180,220,180,.06),rgba(180,220,180,.01));border:1px solid rgba(180,220,180,.08);transition:transform .55s var(--ease),border-color .5s,box-shadow .55s}
+.gallery-item:hover{transform:translateY(-6px) scale(1.02);border-color:rgba(124,184,124,.3);box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 40px rgba(124,184,124,.08)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);display:block}
+.gallery-item:hover img{transform:scale(1.08)}
+.gallery-item .caption{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%);font-size:13px;font-weight:700;color:#e8f0e8;pointer-events:none}
+
+/* ============ CATALOG (домики) ============ */
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.cat-card{position:relative;padding:28px;border-radius:24px;background:linear-gradient(160deg,rgba(180,220,180,.05),rgba(180,220,180,.012));border:1px solid rgba(180,220,180,.08);cursor:pointer;overflow:hidden;transition:transform .55s var(--ease),border-color .5s,box-shadow .55s,background .5s;backdrop-filter:blur(12px);will-change:transform;transform-style:preserve-3d}
+.cat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(124,184,124,.13),transparent 55%);opacity:0;transition:opacity .5s;pointer-events:none}
+.cat-card::after{content:'';position:absolute;top:0;left:30%;right:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(124,184,124,.6),transparent);opacity:0;transition:opacity .5s,left .5s,right .5s;pointer-events:none}
+.cat-card:hover{border-color:rgba(124,184,124,.28);transform:translateY(-8px);box-shadow:0 32px 70px rgba(0,0,0,.55),0 0 0 1px rgba(124,184,124,.05),0 0 40px rgba(124,184,124,.08)}
+.cat-card:hover::before{opacity:1}
+.cat-card:hover::after{opacity:1;left:0;right:0}
+.cat-icon{width:54px;height:54px;border-radius:16px;background:rgba(180,220,180,.06);border:1px solid rgba(180,220,180,.12);display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:transform .55s var(--ease-spring),background .5s,color .5s,box-shadow .5s}
+.cat-card:hover .cat-icon{background:var(--accent);color:#0a120a;transform:rotate(-8deg) scale(1.1);box-shadow:0 12px 30px rgba(124,184,124,.2)}
+.cat-icon svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cat-name{font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;transition:letter-spacing .4s var(--ease)}
+.cat-card:hover .cat-name{letter-spacing:-.1px}
+.cat-desc{font-size:13px;color:var(--muted);line-height:1.5;min-height:38px}
+.cat-price{margin-top:18px;display:flex;align-items:baseline;gap:6px;font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.cat-price b{font-size:19px;color:var(--accent);letter-spacing:-.5px;font-weight:800}
+.cat-arrow{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;background:rgba(180,220,180,.06);border:1px solid rgba(180,220,180,.12);display:flex;align-items:center;justify-content:center;transition:transform .5s var(--ease-spring),background .4s,color .4s,box-shadow .4s;transform:rotate(-45deg)}
+.cat-card:hover .cat-arrow{background:var(--accent);color:#0a120a;transform:rotate(0deg) scale(1.15);box-shadow:0 0 24px rgba(124,184,124,.4)}
+.cat-arrow svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ============ EXTENDED SERVICES ============ */
+.extended-services{margin-top:110px;padding-top:80px;border-top:1px solid rgba(180,220,180,.06);position:relative}
+.extended-services::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:min(280px,60%);height:1px;background:linear-gradient(90deg,transparent,rgba(124,184,124,.5),transparent)}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px}
+.svc-card{position:relative;padding:32px 30px;border-radius:26px;background:linear-gradient(160deg,rgba(180,220,180,.055),rgba(180,220,180,.012));border:1px solid rgba(180,220,180,.09);display:flex;flex-direction:column;overflow:hidden;transition:transform .55s var(--ease),border-color .5s,box-shadow .55s,background .5s;backdrop-filter:blur(12px);will-change:transform;transform-style:preserve-3d}
+.svc-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(124,184,124,.14),transparent 55%);opacity:0;transition:opacity .5s;pointer-events:none}
+.svc-card::after{content:'';position:absolute;top:0;left:30%;right:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(124,184,124,.65),transparent);opacity:0;transition:opacity .5s,left .5s,right .5s;pointer-events:none}
+.svc-card:hover{border-color:rgba(124,184,124,.3);transform:translateY(-8px);box-shadow:0 34px 80px rgba(0,0,0,.6),0 0 0 1px rgba(124,184,124,.05),0 0 50px rgba(124,184,124,.12)}
+.svc-card:hover::before{opacity:1}
+.svc-card:hover::after{opacity:1;left:0;right:0}
+.svc-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.svc-icon{width:60px;height:60px;border-radius:18px;background:rgba(180,220,180,.06);border:1px solid rgba(180,220,180,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .55s var(--ease-spring),background .5s,color .5s,box-shadow .5s}
+.svc-card:hover .svc-icon{background:var(--accent);color:#0a120a;transform:rotate(-8deg) scale(1.1);box-shadow:0 14px 34px rgba(124,184,124,.25)}
+.svc-icon svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.svc-title{font-size:21px;font-weight:800;letter-spacing:-.5px;line-height:1.2;background:linear-gradient(180deg,#e8f0e8,#8a9a8a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.svc-question{font-size:14px;color:#c8d8c8;line-height:1.65;font-weight:600;margin-bottom:20px;padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.3);border:1px solid rgba(180,220,180,.06);position:relative}
+.svc-question::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:2px;background:linear-gradient(180deg,var(--accent),rgba(124,184,124,.3));border-radius:2px}
+.svc-block{margin-bottom:16px}
+.svc-block:last-of-type{margin-bottom:0}
+.svc-block-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.svc-block-label::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--muted)}
+.svc-block-text{font-size:13.5px;color:#b8c8b8;line-height:1.65}
+.svc-block-text strong{color:#e8f0e8;font-weight:700}
+.svc-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding-top:20px;margin-top:20px;border-top:1px solid rgba(180,220,180,.08);flex-wrap:wrap}
+.svc-pricing{display:flex;flex-direction:column;gap:4px;min-width:0}
+.svc-price{font-size:24px;font-weight:800;letter-spacing:-.8px;line-height:1;background:linear-gradient(180deg,#e8f0e8,#8a9a8a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.svc-price small{font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--muted);-webkit-text-fill-color:var(--muted);margin-left:4px}
+.svc-duration{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.svc-btn{padding:12px 20px;border-radius:14px;border:1px solid rgba(180,220,180,.2);background:rgba(180,220,180,.04);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .4s var(--ease);white-space:nowrap;flex-shrink:0}
+.svc-btn:hover{background:var(--accent);color:#0a120a;border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 32px rgba(124,184,124,.35);letter-spacing:1.8px}
+.svc-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .4s var(--ease)}
+.svc-btn:hover svg{transform:translateX(3px)}
+
+/* ============ PRICING ============ */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding-top:20px}
+.price-card{padding:32px 28px;border-radius:24px;background:linear-gradient(180deg,rgba(180,220,180,.05),rgba(180,220,180,.012));border:1px solid rgba(180,220,180,.1);display:flex;flex-direction:column;position:relative;transition:transform .55s var(--ease),border-color .5s,box-shadow .55s;backdrop-filter:blur(12px);will-change:transform;transform-style:preserve-3d}
+.price-card::after{content:'';position:absolute;top:0;left:30%;right:30%;height:1px;background:linear-gradient(90deg,transparent,rgba(124,184,124,.6),transparent);opacity:0;transition:opacity .5s,left .5s,right .5s;pointer-events:none;border-radius:inherit}
+.price-card:hover{border-color:rgba(124,184,124,.3);transform:translateY(-8px);box-shadow:0 32px 70px rgba(0,0,0,.55),0 0 40px rgba(124,184,124,.1)}
+.price-card:hover::after{opacity:1;left:0;right:0}
+.price-card.featured{background:linear-gradient(180deg,rgba(124,184,124,.13),rgba(124,184,124,.03));border-color:rgba(124,184,124,.35);box-shadow:0 20px 70px rgba(124,184,124,.12);animation:featuredGlow 5s ease-in-out infinite}
+@keyframes featuredGlow{0%,100%{box-shadow:0 20px 70px rgba(124,184,124,.12),0 0 0 0 rgba(124,184,124,0)}50%{box-shadow:0 22px 80px rgba(124,184,124,.2),0 0 60px rgba(124,184,124,.12)}}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);z-index:5;padding:5px 14px;border-radius:20px;background:var(--accent);color:#0a120a;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 24px rgba(124,184,124,.35),0 0 24px rgba(124,184,124,.25);animation:priceBadgeFloat 4s ease-in-out infinite;pointer-events:none}
+@keyframes priceBadgeFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-4px)}}
+.price-name{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px}
+.price-num{font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;background:linear-gradient(180deg,#e8f0e8,#8a9a8a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.price-num small{font-size:14px;font-weight:600;letter-spacing:0;color:var(--muted);-webkit-text-fill-color:var(--muted);margin-left:4px}
+.price-range{font-size:12px;color:var(--muted);margin-top:8px;font-weight:600}
+.price-features{list-style:none;margin:24px 0 28px;display:flex;flex-direction:column;gap:12px;flex:1}
+.price-features li{font-size:13px;color:#b8c8b8;display:flex;align-items:flex-start;gap:10px;line-height:1.5;transition:color .3s,transform .35s var(--ease)}
+.price-card:hover .price-features li{color:#e8f0e8}
+.price-features li svg{flex-shrink:0;width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:2.5;margin-top:2px}
+.price-card .btn{width:100%}
+
+/* ============ PROCESS ============ */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;counter-reset:step;margin-top:80px}
+.step{padding:28px;border-radius:24px;background:rgba(180,220,180,.025);border:1px solid rgba(180,220,180,.07);position:relative;transition:transform .5s var(--ease),border-color .4s,background .4s,box-shadow .5s;backdrop-filter:blur(10px);overflow:hidden;will-change:transform;transform-style:preserve-3d}
+.step::before{counter-increment:step;content:counter(step,decimal-leading-zero);position:absolute;top:20px;right:24px;font-size:38px;font-weight:800;color:rgba(124,184,124,.06);letter-spacing:-2px;transition:color .4s,transform .5s var(--ease)}
+.step:hover{border-color:rgba(124,184,124,.2);transform:translateY(-6px);background:rgba(180,220,180,.04);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.step:hover::before{color:rgba(124,184,124,.15);transform:scale(1.15) rotate(-4deg)}
+.step h4{font-size:16px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px}
+.step p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ============ REVIEWS ============ */
+.reviews-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;gap:24px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(180,220,180,.07)}
+.reviews-summary{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.rating-big{font-size:64px;font-weight:800;letter-spacing:-3px;line-height:1;background:linear-gradient(180deg,#e8f0e8,#8a9a8a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums}
+.rating-detail{display:flex;flex-direction:column;gap:6px}
+.stars-row{display:flex;gap:3px}
+.stars-row svg{width:18px;height:18px;fill:var(--accent);stroke:none}
+.stars-row svg.empty{fill:rgba(124,184,124,.15)}
+.rating-count{font-size:12px;color:var(--muted);font-weight:600}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.review-card{padding:24px;border-radius:22px;background:linear-gradient(160deg,rgba(180,220,180,.05),rgba(180,220,180,.012));border:1px solid rgba(180,220,180,.08);display:flex;flex-direction:column;gap:14px;transition:transform .5s var(--ease),border-color .4s,box-shadow .5s;backdrop-filter:blur(12px);will-change:transform;transform-style:preserve-3d}
+.review-card:hover{border-color:rgba(124,184,124,.22);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 30px rgba(124,184,124,.06)}
+.review-top{display:flex;align-items:center;gap:12px}
+.review-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#4a8a4a);color:#0a120a;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0;box-shadow:0 6px 20px rgba(124,184,124,.2)}
+.review-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.review-name{font-size:14px;font-weight:800;letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.review-date{font-size:11px;color:var(--muted);font-weight:500}
+.review-text{font-size:13.5px;color:#b8c8b8;line-height:1.65;flex:1;word-break:break-word}
+.review-service{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;padding-top:10px;border-top:1px solid rgba(180,220,180,.06)}
+.empty-state{padding:80px 24px;text-align:center;border-radius:28px;background:rgba(180,220,180,.02);border:1px dashed rgba(180,220,180,.12);position:relative;overflow:hidden}
+.empty-state::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(124,184,124,.08),transparent 60%);pointer-events:none}
+.empty-icon{width:80px;height:80px;border-radius:24px;margin:0 auto 24px;background:rgba(180,220,180,.04);border:1px solid rgba(180,220,180,.1);display:flex;align-items:center;justify-content:center;animation:iconFloat 4s ease-in-out infinite;position:relative}
+@keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.empty-icon svg{width:36px;height:36px;stroke:rgba(124,184,124,.5);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.empty-state h3{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+.empty-state p{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+
+/* ============ ORDER FORM ============ */
+.order-wrap{max-width:780px;margin:0 auto;padding:44px 40px;border-radius:30px;background:rgba(16,26,16,.72);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid rgba(180,220,180,.12);box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(180,220,180,.15);position:relative}
+.order-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(124,184,124,.4),transparent);border-radius:inherit;pointer-events:none;background-size:200% 100%;animation:orderLine 6s ease-in-out infinite}
+@keyframes orderLine{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.input-group{position:relative;width:100%}
+.input-group.full{grid-column:1/-1}
+.input-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);opacity:.5;pointer-events:none;z-index:2;width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:opacity .35s,transform .35s}
+.input-group.area .input-icon{top:22px;transform:none}
+input,textarea,select{width:100%;padding:16px 18px 16px 50px;border-radius:16px;border:1px solid rgba(180,220,180,.13);background:rgba(0,0,0,.45);color:#fff;font-size:14px;font-weight:500;outline:0;transition:border-color .35s var(--ease),background .35s var(--ease),box-shadow .35s var(--ease),transform .35s var(--ease)}
+textarea{padding:18px;resize:vertical;min-height:120px;line-height:1.6}
+textarea{padding-left:50px !important}
+input::placeholder,textarea::placeholder{color:#5a6a5a}
+input:focus,textarea:focus,select:focus{border-color:rgba(124,184,124,.7);background:rgba(10,18,10,.85);box-shadow:0 0 0 4px rgba(124,184,124,.05),0 0 24px rgba(124,184,124,.12)}
+.input-group:focus-within .input-icon{opacity:1;transform:translateY(-50%) scale(1.1);stroke:var(--accent)}
+.input-group.area:focus-within .input-icon{transform:scale(1.1)}
+select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 18px center;padding-right:48px}
+select option{background:#0a120a;color:#fff}
+input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type="number"]{-moz-appearance:textfield}
+
+/* ============ BOTTOM NAV ============ */
+.bottom-nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:200;display:flex;gap:4px;padding:8px;background:rgba(14,24,14,.92);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(124,184,124,.22);border-radius:34px;box-shadow:0 24px 60px rgba(0,0,0,.75),inset 0 1px 0 rgba(124,184,124,.18),0 0 0 1px rgba(124,184,124,.10),0 0 0 2px rgba(124,184,124,.04),0 0 28px rgba(124,184,124,.22),0 0 60px rgba(124,184,124,.12);transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .4s var(--ease);max-width:calc(100vw - 20px)}
+.bottom-nav:hover{border-color:rgba(124,184,124,.32);box-shadow:0 28px 70px rgba(0,0,0,.8),inset 0 1px 0 rgba(124,184,124,.22),0 0 0 1px rgba(124,184,124,.14),0 0 0 2px rgba(124,184,124,.06),0 0 36px rgba(124,184,124,.32),0 0 80px rgba(124,184,124,.16)}
+.nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 16px;border-radius:26px;background:transparent;border:none;color:var(--muted);cursor:pointer;transition:color .4s var(--ease),background .4s var(--ease),transform .4s var(--ease),box-shadow .4s var(--ease);min-width:66px;font-weight:700}
+.nav-item svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .5s var(--ease-spring)}
+.nav-item span{font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;opacity:.9}
+.nav-item:hover{color:#fff;background:rgba(124,184,124,.05);transform:translateY(-2px)}
+.nav-item:hover svg{transform:scale(1.1) rotate(-4deg)}
+.nav-item.active{color:#0a120a;background:var(--accent);box-shadow:0 0 24px rgba(124,184,124,.45),0 8px 24px rgba(0,0,0,.4);animation:navPop .55s cubic-bezier(.34,1.4,.5,1)}
+@keyframes navPop{0%{transform:scale(.94)}60%{transform:scale(1.05)}100%{transform:scale(1)}}
+.nav-item.active svg{transform:scale(1.08)}
+.nav-item.active:hover svg{transform:scale(1.08)}
+
+/* ============ MODAL ============ */
+.modal{position:fixed;inset:0;z-index:500;display:flex;justify-content:center;align-items:center;background:radial-gradient(circle at center,rgba(10,18,10,.85) 0,rgba(0,0,0,.97) 100%);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:20px;opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+.modal.active{opacity:1;pointer-events:auto}
+.modal-box{width:100%;max-width:420px;padding:36px 30px;border-radius:26px;position:relative;background:rgba(16,26,16,.9);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid rgba(124,184,124,.12);box-shadow:0 40px 100px rgba(0,0,0,.8),inset 0 1px 0 rgba(124,184,124,.15);transform:translateY(24px) scale(.94);filter:blur(10px);transition:transform .55s var(--ease),filter .55s var(--ease),opacity .55s var(--ease);opacity:0;max-height:calc(100vh - 40px);overflow-y:auto}
+.modal.active .modal-box{transform:none;filter:none;opacity:1}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(124,184,124,.06);border:1px solid rgba(124,184,124,.12);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .4s var(--ease);line-height:1}
+.modal-close:hover{background:rgba(124,184,124,.18);transform:rotate(90deg) scale(1.05)}
+.modal-box h2{font-size:22px;font-weight:800;letter-spacing:-.6px;margin-bottom:6px}
+.modal-box .sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.form-stack{display:flex;flex-direction:column;gap:12px}
+.form-stack .input-icon{width:16px;height:16px}
+.form-stack input{padding:15px 16px 15px 46px;font-size:13px}
+.modal-box .btn{margin-top:6px}
+.stars-input{display:flex;justify-content:center;gap:8px;margin:16px 0 20px}
+.star{font-size:40px;cursor:pointer;color:rgba(124,184,124,.15);transition:all .25s var(--ease);line-height:1;user-select:none}
+.star:hover{transform:scale(1.15)}
+.star.active{color:var(--accent);text-shadow:0 0 24px rgba(124,184,124,.9);transform:scale(1.1)}
+#toast-container{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;width:calc(100% - 40px);max-width:400px}
+.toast{padding:15px 22px;border-radius:16px;background:rgba(18,28,18,.96);backdrop-filter:blur(20px);color:#fff;font-weight:700;font-size:13px;text-align:center;border:1px solid rgba(124,184,124,.15);box-shadow:0 14px 40px rgba(0,0,0,.8),inset 0 1px 0 rgba(124,184,124,.1);animation:slideDown .5s cubic-bezier(.16,1,.3,1) forwards;display:flex;align-items:center;justify-content:center;gap:10px}
+.toast svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2.5;flex-shrink:0}
+
+/* ============ АДАПТАЦИЯ ============ */
+@media (max-width:900px){
+.catalog-grid{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.pricing-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.reviews-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.hero-stats{gap:40px;padding:28px}
+.steps{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.svc-grid{grid-template-columns:1fr}
+.gallery-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+}
+@media (max-width:640px){
+.bottom-nav{bottom:14px;padding:6px;gap:2px;border-radius:28px}
+.nav-item{padding:9px 10px;min-width:56px;gap:2px}
+.nav-item svg{width:19px;height:19px}
+.nav-item span{font-size:8.5px;letter-spacing:.3px}
+.page{padding:100px 16px 130px}
+#page-home{padding-top:120px}
+header{padding:14px 16px}
+.logo{font-size:12px;letter-spacing:3px}
+.logo-mark{width:34px;height:34px}
+.hero-stats{gap:24px;margin-top:48px;padding:22px 14px}
+.stat{min-width:60px}
+.stat b{font-size:26px}
+.stat span{font-size:10px;letter-spacing:1.5px}
+.hero-cta{gap:10px}
+.hero-cta .btn{min-width:0;flex:1 1 100%;padding:15px 20px;font-size:12px}
+.form-grid{grid-template-columns:1fr}
+.order-wrap{padding:28px 20px;border-radius:24px}
+.reviews-head{flex-direction:column;align-items:flex-start;margin-bottom:32px;padding-bottom:20px}
+.reviews-head .btn{width:100%}
+.rating-big{font-size:52px}
+.modal-box{padding:28px 20px;border-radius:22px}
+.section-head{margin-bottom:40px}
+.steps{margin-top:56px}
+.empty-state{padding:56px 20px}
+.cat-card,.price-card,.step,.review-card{padding:22px}
+.cat-desc{min-height:auto}
+.extended-services{margin-top:80px;padding-top:60px}
+.svc-card{padding:24px 22px;border-radius:22px}
+.svc-title{font-size:18px}
+.svc-icon{width:52px;height:52px;border-radius:16px}
+.svc-icon svg{width:24px;height:24px}
+.svc-price{font-size:20px}
+.svc-btn{width:100%;justify-content:center}
+.svc-footer{flex-direction:column;align-items:stretch}
+.gallery-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:380px){
+.nav-item span{display:none}
+.nav-item{padding:12px 14px;min-width:auto}
+.bottom-nav{bottom:10px;padding:5px;border-radius:26px;gap:1px}
+.nav-item svg{width:21px;height:21px}
+.hero-h1{letter-spacing:-2px}
+.hero-badge{font-size:10px;letter-spacing:1.5px;padding:7px 14px}
+.logo span{display:none}
+.order-wrap{padding:24px 16px}
+.gallery-grid{grid-template-columns:1fr}
+}
+@media (max-height:640px){
+.page{padding-top:96px}
+#page-home{padding-top:110px}
+.hero-stats{margin-top:44px}
+.bottom-nav{bottom:10px}
+}
+@media (max-height:520px) and (max-width:900px){
+.bottom-nav{bottom:6px;padding:5px}
+.nav-item{padding:7px 12px}
+.nav-item span{display:none}
+.nav-item svg{width:20px;height:20px}
+}
+
+/* ============ ANIMATIONS ============ */
+@keyframes logoPulse{0%{transform:scale(.95);box-shadow:0 0 20px rgba(124,184,124,.6),inset 0 0 10px rgba(124,184,124,.3)}100%{transform:scale(1.05);box-shadow:0 0 50px rgba(124,184,124,.8),inset 0 0 30px rgba(124,184,124,.4)}}
+@keyframes fadeInFlicker{0%,19%,21%,23%,25%,54%,56%,100%{opacity:1}20%,24%,55%{opacity:.4}from{opacity:0;transform:translateY(10px)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress"><div class="scroll-progress-bar" id="scroll-bar"></div></div>
+<div class="cursor-glow" id="cursor-glow"></div>
+
+<div id="bg-layer">
+  <div class="bg-flow"></div>
+  <div class="bg-conic"></div>
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
+  <div class="bg-topglow"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-stars"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-noise"></div>
+</div>
+
+<div id="flash"></div>
+
+<div id="intro">
+  <div class="bg-flow"></div>
+  <div class="bg-conic"></div>
+  <div class="bg-topglow"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-vignette"></div>
+  <div class="bg-noise"></div>
+  <div class="intro-content">
+    <div class="intro-logo">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="90" stroke="#7cb87c" stroke-width="6" fill="none"/>
+        <path d="M100 30 L100 60" stroke="#7cb87c" stroke-width="4"/>
+        <path d="M60 70 L100 45 L140 70 L140 85 L60 85 Z" fill="#7cb87c" opacity="0.9"/>
+        <path d="M45 85 L100 55 L155 85" stroke="#7cb87c" stroke-width="4" fill="none"/>
+        <rect x="75" y="120" width="50" height="40" rx="3" fill="#7cb87c" opacity="0.7"/>
+        <path d="M60 120 L100 100 L140 120" stroke="#7cb87c" stroke-width="4" fill="none"/>
+        <path d="M30 100 L30 140 L50 140 L50 100 Z" fill="#7cb87c" opacity="0.6"/>
+        <path d="M150 100 L150 140 L170 140 L170 100 Z" fill="#7cb87c" opacity="0.6"/>
+        <path d="M40 95 L60 95 L50 110 Z" fill="#7cb87c" opacity="0.8"/>
+        <path d="M140 95 L160 95 L150 110 Z" fill="#7cb87c" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="intro-title">СТАНИЦА ДОНСКАЯ</div>
+    <div class="intro-sub">БАЗА ОТДЫХА · БЕРЕЗОВСКИЙ</div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- ============ FLOATING SIDE ICONS ============ -->
+<div class="float-icons" id="float-icons" aria-hidden="true">
+  <!-- ЛЕВЫЙ КЛАСТЕР -->
+  <div class="f-icon" data-side="left" data-depth="0.85" style="--x:-55px;--y:8%;--rot:-14deg;--size:220px;--z:1;--anim:iconFloatA;--dur:9s;--delay:-1s;--exit-delay:0s;">
+    <div class="f-icon-parallax"><div class="f-icon-float"><div class="f-icon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div></div></div>
+  </div>
+  <div class="f-icon" data-side="left" data-depth="1.2" style="--x:-110px;--y:18%;--rot:-7deg;--size:380px;--z:2;--anim:iconFloatB;--dur:11s;--delay:-2.5s;--exit-delay:.07s;">
+    <div class="f-icon-parallax"><div class="f-icon-float"><div class="f-icon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+    </div></div></div>
+  </div>
+  <div class="f-icon" data-side="left" data-depth="1.0" style="--x:-42px;--y:50%;--rot:-20deg;--size:260px;--z:3;--anim:iconFloatC;--dur:10s;--delay:-3s;--exit-delay:.14s;">
+    <div class="f-icon-parallax"><div class="f-icon-float"><div class="f-icon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><path d="M12 2v4"/><path d="M8 6l4 4 4-4"/></svg>
+    </div></div></div>
+  </div>
+  <!-- ПРАВЫЙ КЛАСТЕР -->
+  <div class="f-icon" data-side="right" data-depth="0.85" style="--x:-55px;--y:9%;--rot:13deg;--size:220px;--z:1;--anim:iconFloatE;--dur:9.5s;--delay:-1.5s;--exit-delay:.04s;">
+    <div class="f-icon-parallax"><div class="f-icon-float"><div class="f-icon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.7 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg>
+    </div></div></div>
+  </div>
+  <div class="f-icon" data-side="right" data-depth="1.2" style="--x:-110px;--y:19%;--rot:7deg;--size:380px;--z:2;--anim:iconFloatF;--dur:10.5s;--delay:-2s;--exit-delay:.11s;">
+    <div class="f-icon-parallax"><div class="f-icon-float"><div class="f-icon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+    </div></div></div>
+  </div>
+  <div class="f-icon" data-side="right" data-depth="1.0" style="--x:-42px;--y:52%;--rot:17deg;--size:260px;--z:3;--anim:iconFloatD;--dur:11s;--delay:-3.5s;--exit-delay:.18s;">
+    <div class="f-icon-parallax"><div class="f-icon-float"><div class="f-icon-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M8 14h.01M12 14h.01M16 14h.01"/></svg>
+    </div></div></div>
+  </div>
+</div>
+
+<header>
+  <div class="logo" onclick="go('home')">
+    <div class="logo-mark">
+      <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="90" stroke="#7cb87c" stroke-width="8" fill="none"/>
+        <path d="M60 70 L100 45 L140 70 L140 85 L60 85 Z" fill="#7cb87c"/>
+        <path d="M45 85 L100 55 L155 85" stroke="#7cb87c" stroke-width="5" fill="none"/>
+        <rect x="75" y="120" width="50" height="40" rx="3" fill="#7cb87c"/>
+        <path d="M60 120 L100 100 L140 120" stroke="#7cb87c" stroke-width="5" fill="none"/>
+        <path d="M30 100 L30 140 L50 140 L50 100 Z" fill="#7cb87c"/>
+        <path d="M150 100 L150 140 L170 140 L170 100 Z" fill="#7cb87c"/>
+      </svg>
+    </div>
+    <span>СТАНИЦА ДОНСКАЯ</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HOME ============ -->
+  <section class="page active" id="page-home" data-page="home">
+    <div class="reveal">
+      <div class="hero-badge"><span class="dot-pulse"></span> Свободные даты на этот сезон</div>
+    </div>
+    <h1 class="hero-h1 reveal">Отдых в лесу<br><span class="accent">у самого Березовского</span></h1>
+    <p class="hero-lead reveal">Уютные домики среди елей, баня-бочка, чан с горячей водой и мангальная зона. Всего 25 км от Екатеринбурга и 5 км от Березовского. Идеальное место для семейного отдыха и встреч с друзьями.</p>
+    <div class="hero-cta reveal">
+      <button class="btn btn-primary" onclick="go('order')">
+        Забронировать
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn btn-ghost" onclick="go('services')">Наши домики</button>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="stat"><b>5.0</b><span>Рейтинг</span></div>
+      <div class="stat"><b>128+</b><span>Отзывов</span></div>
+      <div class="stat"><b>25 км</b><span>От Екб</span></div>
+      <div class="stat"><b>4</b><span>Домика</span></div>
+    </div>
+
+    <div class="section-head" style="margin-top:120px;margin-bottom:40px">
+      <div class="section-label reveal">Фотогалерея</div>
+      <h2 class="section-title reveal">Как у нас выглядит отдых</h2>
+      <p class="section-sub reveal">Каждый домик окружён елями, есть своя мангальная зона и все удобства</p>
+    </div>
+    <div class="gallery-grid reveal" id="gallery-grid"></div>
+
+    <div class="section-head" style="margin-top:120px;margin-bottom:40px">
+      <div class="section-label reveal">Как добраться</div>
+      <h2 class="section-title reveal">Мы находимся здесь</h2>
+      <p class="section-sub reveal">Свердловская область, Берёзовский муниципальный округ, ДНТ Станица, Донская улица, 23</p>
+    </div>
+    <div class="reveal" style="border-radius:24px;overflow:hidden;border:1px solid rgba(124,184,124,.1);box-shadow:0 24px 60px rgba(0,0,0,.5)">
+      <iframe src="https://yandex.ru/map-widget/v1/?ll=60.9508%2C56.8764&z=14&pt=60.9508,56.8764" width="100%" height="400" frameborder="0" style="display:block;border:none"></iframe>
+    </div>
+
+    <div class="section-head" style="margin-top:120px;margin-bottom:40px">
+      <div class="section-label reveal">Как мы работаем</div>
+      <h2 class="section-title reveal">От заявки до заезда</h2>
+      <p class="section-sub reveal">Прозрачно и без сюрпризов</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h4>Заявка</h4><p>Оставляете заявку на сайте или пишете в Telegram. Уточняем даты и количество гостей.</p></div>
+      <div class="step reveal"><h4>Бронирование</h4><p>Подтверждаем даты, рассказываем про домик и отправляем инструкции по заезду.</p></div>
+      <div class="step reveal"><h4>Заезд</h4><p>Приезжаете, получаете ключи. Всё готово: чисто, тепло, баня истоплена.</p></div>
+      <div class="step reveal"><h4>Отдых</h4><p>Наслаждаетесь лесом, баней, чаном и тишиной. Мы на связи 24/7.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES (Домики) ============ -->
+  <section class="page" id="page-services" data-page="services">
+    <div class="section-head">
+      <div class="section-label reveal">Наши домики</div>
+      <h2 class="section-title reveal">Выберите свой формат отдыха</h2>
+      <p class="section-sub reveal">Уютные домики для пар, семей и компаний</p>
+    </div>
+    <div class="catalog-grid" id="catalog-grid"></div>
+
+    <div class="extended-services">
+      <div class="section-head" style="margin-bottom:48px">
+        <div class="section-label reveal">Услуги и цены</div>
+        <h2 class="section-title reveal">Дополнительные услуги</h2>
+        <p class="section-sub reveal">Баня, чан, мангал и всё для комфортного отдыха</p>
+      </div>
+      <div class="svc-grid" id="svc-grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="page" id="page-pricing" data-page="pricing">
+    <div class="section-head">
+      <div class="section-label reveal">Тарифы</div>
+      <h2 class="section-title reveal">Честные цены без доплат</h2>
+      <p class="section-sub reveal">Стоимость зависит от домика, сезона и количества гостей</p>
+    </div>
+    <div class="pricing-grid" id="pricing-grid"></div>
+  </section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section class="page" id="page-reviews" data-page="reviews">
+    <div class="section-head" style="text-align:left;margin-bottom:32px">
+      <div class="section-label reveal">Отзывы гостей</div>
+      <h2 class="section-title reveal">Что о нас говорят</h2>
+    </div>
+    <div class="reviews-head reveal">
+      <div class="reviews-summary">
+        <div class="rating-big" id="rating-big">—</div>
+        <div class="rating-detail">
+          <div class="stars-row" id="rating-stars-display"></div>
+          <div class="rating-count"><span id="reviews-count">0</span> отзывов</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="openReviewModal()" style="padding:14px 24px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Оставить отзыв
+      </button>
+    </div>
+    <div id="reviews-content"></div>
+  </section>
+
+  <!-- ============ ORDER ============ -->
+  <section class="page" id="page-order" data-page="order">
+    <div class="section-head">
+      <div class="section-label reveal">Оставить заявку</div>
+      <h2 class="section-title reveal">Забронируйте отдых</h2>
+      <p class="section-sub reveal">Ответим в течение 30 минут и подтвердим даты</p>
+    </div>
+    <div class="order-wrap reveal">
+      <form id="order-form" onsubmit="submitOrder(event)" autocomplete="off">
+        <div class="form-grid">
+          <div class="input-group">
+            <svg class="input-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" name="name" placeholder="Ваше имя" required>
+          </div>
+          <div class="input-group">
+            <svg class="input-icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <input type="tel" name="phone" placeholder="Телефон или Telegram" required>
+          </div>
+          <div class="input-group full">
+            <svg class="input-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            <select name="type" id="order-type" required>
+              <option value="">Выберите домик</option>
+              <option value="dom-s-lesom">Дом с видом на лес — от 9 600 ₽</option>
+              <option value="dom-garri">Домик Гарри — от 8 000 ₽</option>
+              <option value="dom-dzhordzh">Домик Джордж — от 7 000 ₽</option>
+              <option value="dom-fred">Домик Фред — от 7 000 ₽</option>
+              <option value="custom">Другое / не знаю</option>
+            </select>
+          </div>
+
+          <div class="budget-picker">
+            <div class="budget-picker-label">
+              <svg viewBox="0 0 24 24"><path d="M8 4h6a4 4 0 0 1 0 8H8"/><path d="M8 4v16"/><path d="M4 12h11"/></svg>
+              <span>Количество гостей</span>
+              <b id="budget-display">2 гостя</b>
+            </div>
+            <div class="budget-options" id="budget-options">
+              <button type="button" class="budget-chip" data-value="1">1</button>
+              <button type="button" class="budget-chip" data-value="2">2</button>
+              <button type="button" class="budget-chip" data-value="4">3-4</button>
+              <button type="button" class="budget-chip" data-value="6">5-6</button>
+              <button type="button" class="budget-chip" data-value="custom">Свой</button>
+            </div>
+            <div class="budget-custom hidden" id="budget-custom-wrap">
+              <div class="budget-custom-field">
+                <svg class="input-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <input type="number" id="budget-input" placeholder="Количество гостей" min="1" max="20" step="1" value="2">
+              </div>
+              <div class="budget-custom-hint">
+                <span>Минимум 1 гость</span>
+                <span>Максимум 20 гостей</span>
+              </div>
+            </div>
+            <input type="hidden" name="budget" id="budget-value" value="2">
+          </div>
+
+          <div class="input-group full area">
+            <svg class="input-icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <textarea name="description" placeholder="Укажите желаемые даты, дополнительное время и пожелания..." required></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:26px">
+          Отправить заявку
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="nav-item active" data-page="home">
+    <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+    <span>Главная</span>
+  </button>
+  <button class="nav-item" data-page="services">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span>Домики</span>
+  </button>
+  <button class="nav-item" data-page="pricing">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h5a2.5 2.5 0 0 1 0 5H9"/><path d="M9 13h6"/><path d="M9 5v14"/></svg>
+    <span>Цены</span>
+  </button>
+  <button class="nav-item" data-page="reviews">
+    <svg viewBox="0 0 24 24"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.7 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg>
+    <span>Отзывы</span>
+  </button>
+  <button class="nav-item" data-page="order">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    <span>Заказать</span>
+  </button>
+</nav>
+
+<div class="modal" id="review-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('review-modal')">✕</button>
+    <h2>Оставить отзыв</h2>
+    <div class="sub">Расскажите о вашем отдыхе</div>
+    <form id="review-form" onsubmit="submitReview(event)" autocomplete="off">
+      <div class="stars-input" id="stars-input">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+      </div>
+      <div class="form-stack">
+        <div class="input-group">
+          <svg class="input-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="text" name="review-name" placeholder="Ваше имя" required>
+        </div>
+        <div class="input-group">
+          <svg class="input-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+          <select name="service" required>
+            <option value="">Что посещали</option>
+            <option>Дом с видом на лес</option>
+            <option>Домик Гарри</option>
+            <option>Домик Джордж</option>
+            <option>Домик Фред</option>
+            <option>Баня / чан</option>
+            <option>Мангальная зона</option>
+          </select>
+        </div>
+        <div class="input-group area">
+          <textarea name="text" placeholder="Ваш отзыв..." required style="padding-left:18px;min-height:120px"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%">Опубликовать</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — GitHub Gist для отзывов
+   ============================================================ */
+const GIST_ID = 'c7ffc8f963dca424af0acbf7cbf5e683';
+const GIST_FILENAME = 'reviews.json';
+const GITHUB_TOKEN = ''; // Если нужен токен — вставьте здесь
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  reviews: [],
+  currentPage: 'home',
+  newReviewRating: 0,
+  budget: 2
+};
+
+/* ============================================================
+   DATA — Домики
+   ============================================================ */
+const CATALOG = [
+  {
+    id: 'dom-s-lesom',
+    name: 'Дом с видом на лес',
+    desc: 'Просторный дом 90 м², 3 двуспальные кровати. Панорамные окна, камин, мини-кухня. Идеально для большой компании.',
+    price: 'от 9 600 ₽',
+    icon: '<path d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><path d="M12 6v2"/>'
+  },
+  {
+    id: 'dom-garri',
+    name: 'Домик Гарри',
+    desc: 'Уютный домик 30 м² с 2 двуспальными кроватями. Камин, мини-кухня, терраса. Отлично для семьи или двух пар.',
+    price: 'от 8 000 ₽',
+    icon: '<path d="M12 2C8 2 5 5 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>'
+  },
+  {
+    id: 'dom-dzhordzh',
+    name: 'Домик Джордж',
+    desc: 'Компактный домик 22 м² с одной двуспальной кроватью. Идеален для пары. Есть всё необходимое для комфортного отдыха.',
+    price: 'от 7 000 ₽',
+    icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/><circle cx="15" cy="15" r="2"/>'
+  },
+  {
+    id: 'dom-fred',
+    name: 'Домик Фред',
+    desc: 'Уютный домик 22 м² с одной двуспальной кроватью. Панорамное окно с видом на ели. Для романтического уикенда.',
+    price: 'от 7 000 ₽',
+    icon: '<path d="M12 2v4"/><path d="M8 6l4 4 4-4"/><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>'
+  }
+];
+
+/* ============================================================
+   EXTENDED SERVICES
+   ============================================================ */
+const EXTENDED_SERVICES = [
+  {
+    id: 'banya',
+    title: 'Баня-бочка',
+    question: 'Хотите расслабиться после долгой недели? Баня-бочка с террасой — идеальное решение. Нагревается быстро, держит жар долго.',
+    includes: 'Баня-бочка с террасой, веники, тапочки, простыни.',
+    result: 'Полное расслабление и восстановление.',
+    price: '4 500 ₽',
+    duration: '3 часа',
+    icon: '<path d="M12 2v4"/><path d="M8 6l4 4 4-4"/><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>'
+  },
+  {
+    id: 'chan',
+    title: 'Чан с горячей водой',
+    question: 'Хотите насладиться горячей водой под открытым небом? Чан топится на дровах, вода не остывает. Безлимитное использование.',
+    includes: 'Чан с горячей водой, дрова, полотенца, тапочки.',
+    result: 'Незабываемый отдых на природе.',
+    price: '5 000 ₽',
+    duration: '3-4 часа',
+    icon: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>'
+  },
+  {
+    id: 'mangal',
+    title: 'Мангальная зона',
+    question: 'Планируете шашлыки? На территории каждого домика есть мангальная зона с шампурами, решёткой и углём. Всё готово для барбекю.',
+    includes: 'Мангал, шампуры, решётка, уголь, розжиг, стол и лавочки.',
+    result: 'Вкусный отдых на свежем воздухе.',
+    price: 'Включено',
+    duration: 'Безлимитно',
+    icon: '<path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.7 6.5 19.5l1-6.3L3 8.9 9 8z"/>'
+  }
+];
+
+const PRICING = [
+  { name:'Домик Фред', price:'7 000', range:'7 000 — 9 000 ₽ / сутки', features:['22 м²','1 двуспальная кровать','Камин','Мини-кухня','Терраса','Мангальная зона'] },
+  { name:'Домик Джордж', price:'7 000', range:'7 000 — 9 000 ₽ / сутки', features:['22 м²','1 двуспальная кровать','Камин','Мини-кухня','Терраса','Мангальная зона'] },
+  { name:'Домик Гарри', price:'8 000', range:'8 000 — 10 000 ₽ / сутки', features:['30 м²','2 двуспальные кровати','Камин','Мини-кухня','Терраса','Мангальная зона'], featured:true },
+  { name:'Дом с видом на лес', price:'9 600', range:'9 600 — 12 000 ₽ / сутки', features:['90 м²','3 двуспальные кровати','Камин','Мини-кухня','Панорамные окна','Мангальная зона'] }
+];
+
+/* ============================================================
+   GALLERY — Фото базы отдыха
+   ============================================================ */
+const GALLERY = [
+  { src: 'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=800&q=80', caption: 'Домик в лесу' },
+  { src: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=80', caption: 'Вид на ели' },
+  { src: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&q=80', caption: 'Уютный интерьер' },
+  { src: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&q=80', caption: 'Баня-бочка' },
+  { src: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80', caption: 'Мангальная зона' },
+  { src: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80', caption: 'Терраса' },
+  { src: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80', caption: 'Лес вокруг' },
+  { src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80', caption: 'Зимний отдых' }
+];
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load', () => {
+  document.body.classList.add('home-page');
+
+  setTimeout(() => {
+    const intro = document.getElementById('intro');
+    const flash = document.getElementById('flash');
+    if (intro) {
+      intro.classList.add('fade-out');
+      setTimeout(() => {
+        intro.style.display = 'none';
+        intro.style.visibility = 'hidden';
+      }, 900);
+    }
+    if (flash) {
+      flash.style.opacity = '1';
+      setTimeout(() => { flash.style.opacity = '0'; }, 300);
+    }
+    activateReveal(document.getElementById('page-home'));
+  }, 2200);
+
+  setTimeout(() => {
+    const intro = document.getElementById('intro');
+    if (intro && intro.style.display !== 'none') {
+      intro.classList.add('fade-out');
+      intro.style.display = 'none';
+      intro.style.visibility = 'hidden';
+    }
+  }, 4000);
+
+  renderCatalog();
+  renderExtendedServices();
+  renderPricing();
+  renderGallery();
+  loadReviews();
+  initStarsInput();
+  initBudgetPicker();
+  initNav();
+  initCardCursor();
+  initScrollProgress();
+  initCursorGlow();
+  initMagneticButtons();
+  initTilt();
+  initCounters();
+  initFloatIcons();
+});
+
+/* ============================================================
+   NAV
+   ============================================================ */
+function initNav(){
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', () => go(btn.dataset.page));
+  });
+}
+
+function go(page){
+  if (page === state.currentPage) {
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  state.currentPage = page;
+  document.body.classList.toggle('home-page', page === 'home');
+  document.querySelectorAll('.nav-item').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === page);
+  });
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({top:0,behavior:'auto'});
+    activateReveal(target);
+  }
+}
+
+function activateReveal(pageEl){
+  if (!pageEl) return;
+  const items = pageEl.querySelectorAll('.reveal');
+  items.forEach(el => el.classList.remove('in'));
+  requestAnimationFrame(() => {
+    items.forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), i * 70);
+    });
+  });
+}
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+function renderGallery(){
+  const grid = document.getElementById('gallery-grid');
+  if (!grid) return;
+  grid.innerHTML = GALLERY.map(item => `
+    <div class="gallery-item reveal">
+      <img src="${item.src}" alt="${item.caption}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80'">
+      <div class="caption">${item.caption}</div>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   CATALOG
+   ============================================================ */
+function renderCatalog(){
+  const grid = document.getElementById('catalog-grid');
+  grid.innerHTML = CATALOG.map(c => `
+    <div class="cat-card reveal" onclick="orderService('${c.id}')">
+      <div class="cat-arrow"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+      <div class="cat-icon"><svg viewBox="0 0 24 24">${c.icon}</svg></div>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-desc">${c.desc}</div>
+      <div class="cat-price">Стоимость <b>${c.price}</b></div>
+    </div>
+  `).join('');
+}
+
+function orderService(id){
+  const c = CATALOG.find(x => x.id === id);
+  if (!c) return;
+  go('order');
+  setTimeout(() => {
+    const sel = document.getElementById('order-type');
+    sel.value = id;
+    const ta = document.querySelector('#order-form textarea[name="description"]');
+    if (ta) ta.value = `Интересует ${c.name}. ${c.desc}`;
+    sel.dispatchEvent(new Event('change'));
+  }, 500);
+}
+
+/* ============================================================
+   EXTENDED SERVICES
+   ============================================================ */
+function renderExtendedServices(){
+  const grid = document.getElementById('svc-grid');
+  if (!grid) return;
+  grid.innerHTML = EXTENDED_SERVICES.map(s => `
+    <div class="svc-card reveal">
+      <div class="svc-header">
+        <div class="svc-icon"><svg viewBox="0 0 24 24">${s.icon}</svg></div>
+        <div class="svc-title">${s.title}</div>
+      </div>
+      <div class="svc-question">${s.question}</div>
+      <div class="svc-block">
+        <div class="svc-block-label">Что входит</div>
+        <div class="svc-block-text">${s.includes}</div>
+      </div>
+      <div class="svc-block">
+        <div class="svc-block-label">Результат</div>
+        <div class="svc-block-text">${s.result}</div>
+      </div>
+      <div class="svc-footer">
+        <div class="svc-pricing">
+          <div class="svc-price">${s.price}</div>
+          <div class="svc-duration">${s.duration}</div>
+        </div>
+        <button class="svc-btn" onclick="orderExtendedService('${s.id}')">
+          Забронировать
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function orderExtendedService(id){
+  const s = EXTENDED_SERVICES.find(x => x.id === id);
+  if (!s) return;
+  go('order');
+  setTimeout(() => {
+    const sel = document.getElementById('order-type');
+    if (sel) sel.value = 'custom';
+    const ta = document.querySelector('#order-form textarea[name="description"]');
+    if (ta) {
+      ta.value = `Интересует услуга: ${s.title}.\n\n${s.question}\n\nЧто входит: ${s.includes}\nРезультат: ${s.result}\nСтоимость: ${s.price}\nСрок: ${s.duration}`;
+    }
+  }, 500);
+}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+function renderPricing(){
+  const grid = document.getElementById('pricing-grid');
+  grid.innerHTML = PRICING.map(p => `
+    <div class="price-card reveal ${p.featured ? 'featured' : ''}">
+      ${p.featured ? '<div class="price-badge">Популярный</div>' : ''}
+      <div class="price-name">${p.name}</div>
+      <div class="price-num">${p.price}<small>₽</small></div>
+      <div class="price-range">${p.range}</div>
+      <ul class="price-features">
+        ${p.features.map(f => `<li><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>${f}</li>`).join('')}
+      </ul>
+      <button class="btn ${p.featured ? 'btn-primary' : 'btn-ghost'}" onclick="selectTariff('${p.name}', '${p.price}')">
+        Забронировать
+      </button>
+    </div>
+  `).join('');
+}
+
+function selectTariff(name, price){
+  go('order');
+  setTimeout(() => {
+    const sel = document.getElementById('order-type');
+    if (sel) sel.value = 'custom';
+    const ta = document.querySelector('#order-form textarea[name="description"]');
+    if (ta) ta.value = `Хочу забронировать: ${name}. Ориентировочная стоимость: ${price} ₽.`;
+  }, 500);
+}
+
+/* ============================================================
+   BUDGET PICKER (кол-во гостей)
+   ============================================================ */
+function initBudgetPicker(){
+  const chips = document.querySelectorAll('.budget-chip');
+  const customWrap = document.getElementById('budget-custom-wrap');
+  const customInput = document.getElementById('budget-input');
+  const hiddenInput = document.getElementById('budget-value');
+  const display = document.getElementById('budget-display');
+
+  const fmt = v => v + (v === 1 ? ' гость' : v < 5 ? ' гостя' : ' гостей');
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      const v = chip.dataset.value;
+      if (v === 'custom') {
+        customWrap.classList.remove('hidden');
+        let cur = parseInt(customInput.value);
+        if (!cur || cur < 1 || cur > 20) cur = 2;
+        customInput.value = cur;
+        hiddenInput.value = cur;
+        state.budget = cur;
+        display.innerText = fmt(cur);
+        setTimeout(() => {
+          try { customInput.focus(); customInput.select(); } catch(e){}
+        }, 60);
+      } else {
+        customWrap.classList.add('hidden');
+        const num = parseInt(v);
+        hiddenInput.value = num;
+        state.budget = num;
+        display.innerText = fmt(num);
+      }
+    });
+  });
+
+  customInput.addEventListener('input', () => {
+    let v = parseInt(customInput.value);
+    if (isNaN(v)) v = 0;
+    if (v > 20) v = 20;
+    state.budget = v;
+    hiddenInput.value = v;
+    display.innerText = v ? fmt(v) : '— гостей';
+  });
+
+  customInput.addEventListener('blur', () => {
+    let v = parseInt(customInput.value);
+    if (!v || v < 1) v = 1;
+    if (v > 20) v = 20;
+    customInput.value = v;
+    hiddenInput.value = v;
+    state.budget = v;
+    display.innerText = fmt(v);
+  });
+
+  const def = document.querySelector('.budget-chip[data-value="2"]');
+  if (def) def.click();
+}
+
+/* ============================================================
+   REVIEWS — GitHub Gist
+   ============================================================ */
+async function loadReviews(){
+  try {
+    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+    const gist = await r.json();
+    const file = gist.files[GIST_FILENAME];
+    if (file) {
+      const content = JSON.parse(file.content);
+      state.reviews = Array.isArray(content) ? content : [];
+    } else {
+      state.reviews = [];
+    }
+  } catch (e) {
+    console.warn('Не удалось загрузить отзывы:', e.message);
+    state.reviews = [];
+  }
+  renderReviews();
+}
+
+function renderReviews(){
+  const content = document.getElementById('reviews-content');
+  const count = state.reviews.length;
+  const avg = count ? (state.reviews.reduce((s,r) => s + r.rating, 0) / count).toFixed(1) : '—';
+  document.getElementById('rating-big').innerText = avg;
+  document.getElementById('reviews-count').innerText = count;
+  document.getElementById('rating-stars-display').innerHTML = renderStars(count ? Math.round(avg) : 0);
+
+  if (count === 0) {
+    content.innerHTML = `
+      <div class="empty-state reveal in">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Пока нет отзывов</h3>
+        <p>Станьте первым, кто расскажет об отдыхе на базе «Станица Донская» — это поможет другим гостям.</p>
+        <button class="btn btn-primary" onclick="openReviewModal()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Оставить первый отзыв
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  const sorted = [...state.reviews].sort((a,b) => (b.date || 0) - (a.date || 0));
+  content.innerHTML = `<div class="reviews-grid">${sorted.map(r => `
+    <div class="review-card reveal">
+      <div class="review-top">
+        <div class="review-avatar">${escapeHtml((r.name || 'A').slice(0,1).toUpperCase())}</div>
+        <div class="review-meta">
+          <div class="review-name">${escapeHtml(r.name || 'Аноним')}</div>
+          <div class="review-date">${formatDate(r.date)}</div>
+        </div>
+      </div>
+      <div class="stars-row">${renderStars(r.rating)}</div>
+      <div class="review-text">${escapeHtml(r.text)}</div>
+      <div class="review-service">${escapeHtml(r.service || 'Отдых')}</div>
+    </div>
+  `).join('')}</div>`;
+
+  requestAnimationFrame(() => {
+    content.querySelectorAll('.reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), i * 70);
+    });
+  });
+}
+
+function renderStars(n){
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    html += `<svg viewBox="0 0 24 24" class="${i <= n ? '' : 'empty'}"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.7 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg>`;
+  }
+  return html;
+}
+
+function formatDate(ts){
+  if (!ts) return 'Недавно';
+  const d = new Date(ts);
+  const months = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function escapeHtml(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function openReviewModal(){
+  state.newReviewRating = 0;
+  document.querySelectorAll('#stars-input .star').forEach(s => s.classList.remove('active'));
+  document.getElementById('review-form').reset();
+  openModal('review-modal');
+}
+
+function initStarsInput(){
+  document.querySelectorAll('#stars-input .star').forEach(star => {
+    star.addEventListener('mouseenter', function(){
+      const v = +this.dataset.value;
+      document.querySelectorAll('#stars-input .star').forEach(s => {
+        s.classList.toggle('active', +s.dataset.value <= v);
+      });
+    });
+    star.addEventListener('click', function(){
+      state.newReviewRating = +this.dataset.value;
+      document.querySelectorAll('#stars-input .star').forEach(s => {
+        s.classList.toggle('active', +s.dataset.value <= state.newReviewRating);
+      });
+    });
+  });
+  document.getElementById('stars-input').addEventListener('mouseleave', () => {
+    document.querySelectorAll('#stars-input .star').forEach(s => {
+      s.classList.toggle('active', +s.dataset.value <= state.newReviewRating);
+    });
+  });
+}
+
+async function submitReview(e){
+  e.preventDefault();
+  if (!state.newReviewRating) return toast('Поставьте оценку', false);
+  const fd = new FormData(e.target);
+  const body = {
+    name: (fd.get('review-name') || '').trim(),
+    rating: state.newReviewRating,
+    service: fd.get('service'),
+    text: (fd.get('text') || '').trim(),
+    date: Date.now()
+  };
+  if (!body.text || body.text.length < 5) return toast('Напишите отзыв', false);
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  const old = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Отправка...';
+
+  try {
+    // Получаем текущие отзывы
+    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+    const gist = await r.json();
+    const file = gist.files[GIST_FILENAME];
+    let reviews = [];
+    if (file) {
+      reviews = JSON.parse(file.content);
+      if (!Array.isArray(reviews)) reviews = [];
+    }
+    reviews.push(body);
+
+    // Обновляем gist
+    const update = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(GITHUB_TOKEN ? { 'Authorization': `token ${GITHUB_TOKEN}` } : {})
+      },
+      body: JSON.stringify({
+        files: {
+          [GIST_FILENAME]: {
+            content: JSON.stringify(reviews, null, 2)
+          }
+        }
+      })
+    });
+
+    if (!update.ok) throw new Error('Ошибка обновления');
+
+    closeModal('review-modal');
+    toast('Спасибо за отзыв!', true);
+    e.target.reset();
+    state.newReviewRating = 0;
+    await loadReviews();
+    go('reviews');
+  } catch (err) {
+    toast('Не удалось отправить отзыв', false);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = old;
+  }
+}
+
+/* ============================================================
+   ORDER
+   ============================================================ */
+async function submitOrder(e){
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const body = {
+    name: (fd.get('name') || '').trim(),
+    phone: (fd.get('phone') || '').trim(),
+    type: fd.get('type'),
+    budget: Number(fd.get('budget')) || 0,
+    description: (fd.get('description') || '').trim()
+  };
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  const old = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = 'Отправка...';
+
+  // Отправляем в Telegram через бота (если есть) или показываем успех
+  // В реальном проекте здесь был бы вызов API
+  try {
+    // Имитация успешной отправки
+    await new Promise(r => setTimeout(r, 800));
+
+    e.target.reset();
+    const def = document.querySelector('.budget-chip[data-value="2"]');
+    if (def) def.click();
+    const customWrap = document.getElementById('budget-custom-wrap');
+    if (customWrap) customWrap.classList.add('hidden');
+    const customInp = document.getElementById('budget-input');
+    if (customInp) customInp.value = 2;
+
+    toast('Заявка отправлена! Свяжемся в течение 30 минут', true);
+  } catch (err) {
+    toast('Ошибка отправки. Попробуйте позже', false);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = old;
+  }
+}
+
+/* ============================================================
+   MODAL / TOAST
+   ============================================================ */
+function openModal(id){
+  document.getElementById(id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function toast(msg, ok = true){
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  const icon = ok
+    ? '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'
+    : '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+  t.innerHTML = icon + '<span>' + escapeHtml(msg) + '</span>';
+  c.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(-12px)';
+    t.style.transition = 'opacity .35s, transform .35s';
+    setTimeout(() => t.remove(), 400);
+  }, 3500);
+}
+
+/* ============================================================
+   EFFECTS
+   ============================================================ */
+function initCardCursor(){
+  document.addEventListener('mousemove', e => {
+    const card = e.target.closest('.cat-card, .svc-card, .btn-ghost, .gallery-item');
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+}
+
+function initScrollProgress(){
+  const bar = document.getElementById('scroll-bar');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+}
+
+function initCursorGlow(){
+  const glow = document.getElementById('cursor-glow');
+  if (!glow || matchMedia('(max-width:900px)').matches) return;
+  let tx = -1000, ty = -1000, cx = -1000, cy = -1000;
+  document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
+  (function loop(){
+    cx += (tx - cx) * 0.10;
+    cy += (ty - cy) * 0.10;
+    glow.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(loop);
+  })();
+}
+
+function initFloatIcons(){
+  const icons = document.querySelectorAll('.f-icon');
+  if (!icons.length) return;
+  if (matchMedia('(max-width:1023px)').matches) return;
+
+  let tx = 0, ty = 0, cx = 0, cy = 0;
+
+  document.addEventListener('mousemove', e => {
+    const w = window.innerWidth, h = window.innerHeight;
+    tx = (e.clientX - w / 2) / (w / 2);
+    ty = (e.clientY - h / 2) / (h / 2);
+  }, { passive: true });
+
+  (function loop(){
+    cx += (tx - cx) * 0.06;
+    cy += (ty - cy) * 0.06;
+    for (const icon of icons) {
+      const parallax = icon.querySelector('.f-icon-parallax');
+      if (!parallax) continue;
+      const d = parseFloat(icon.dataset.depth) || 1;
+      parallax.style.transform = `translate3d(${cx * d * 22}px, ${cy * d * 22}px, 0)`;
+    }
+    requestAnimationFrame(loop);
+  })();
+}
+
+function initMagneticButtons(){
+  if (matchMedia('(pointer: coarse)').matches) return;
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2;
+      const y = e.clientY - r.top - r.height / 2;
+      btn.style.transform = `translate(${x * 0.14}px, ${y * 0.14}px) translateY(-2px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+}
+
+function initTilt(){
+  if (matchMedia('(pointer: coarse)').matches) return;
+  const cards = document.querySelectorAll('.cat-card, .svc-card, .price-card, .review-card, .step');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      const rx = -y * 5;
+      const ry = x * 5;
+      card.style.transform = `translateY(-8px) perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+}
+
+function initCounters(){
+  const stats = document.querySelectorAll('.hero-stats .stat b');
+  stats.forEach(el => {
+    const original = el.textContent.trim();
+    const m = original.match(/^([\d.,]+)(.*)$/);
+    if (!m) return;
+    const num = parseFloat(m[1].replace(',', '.'));
+    const suffix = m[2];
+    const isFloat = m[1].includes('.') || m[1].includes(',');
+    let started = false;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !started) {
+          started = true;
+          const start = performance.now();
+          const dur = 1600;
+          const tick = now => {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 4);
+            const val = num * eased;
+            el.textContent = (isFloat ? val.toFixed(1) : Math.round(val)) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+            else el.textContent = original;
+          };
+          requestAnimationFrame(tick);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(el);
+  });
+}
+
+/* ============================================================
+   MODAL BACKDROP / ESC
+   ============================================================ */
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => {
+    if (e.target === m) closeModal(m.id);
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal.active').forEach(m => closeModal(m.id));
+  }
+});
+</script>
+</body>
+</html>
